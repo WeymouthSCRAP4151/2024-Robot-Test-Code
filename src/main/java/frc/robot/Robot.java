@@ -16,11 +16,13 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
  */
 public class Robot extends TimedRobot {
   private final PWMSparkMax m_leftMotor = new PWMSparkMax(4);
+  private final PWMSparkMax m_pulley1 = new PWMSparkMax(2);
+  private final PWMSparkMax m_pulley2 = new PWMSparkMax(3);
   private final PWMSparkMax m_rightMotor = new PWMSparkMax(1);
   private final DifferentialDrive m_robotDrive =
       new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
   private final Joystick m_stick = new Joystick(0);
-
+  //private final Joystick m_stick2 = new Joystick(1);
   public Robot() {
     SendableRegistry.addChild(m_robotDrive, m_leftMotor);
     SendableRegistry.addChild(m_robotDrive, m_rightMotor);
@@ -40,5 +42,15 @@ public class Robot extends TimedRobot {
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
     m_robotDrive.arcadeDrive(-m_stick.getY(), -m_stick.getX());
+    if (m_stick.getRawButton(3)) {
+      m_pulley1.set(1);
+      m_pulley2.set(1);
+    } else if (m_stick.getRawButton(2)) {
+      m_pulley1.set(-0.5);
+      m_pulley2.set(-0.5);
+    } else {
+      m_pulley1.set(0);
+      m_pulley2.set(0);
+    }
   }
 }
