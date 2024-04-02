@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive =
       new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
   private final Joystick m_stick = new Joystick(0);
-  //private final Joystick m_stick2 = new Joystick(1);
+  private final Joystick m_stick2 = new Joystick(1);
   public Robot() {
     SendableRegistry.addChild(m_robotDrive, m_leftMotor);
     SendableRegistry.addChild(m_robotDrive, m_rightMotor);
@@ -38,10 +38,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // Drive with arcade drive.
-    // That means that the Y axis drives forward
-    // and backward, and the X turns left and right.
-    m_robotDrive.arcadeDrive(-m_stick.getY(), -m_stick.getX());
+    m_robotDrive.tankDrive(-m_stick.getY(), -m_stick2.getY());
     if (m_stick.getRawButton(3)) {
       m_pulley1.set(1);
       m_pulley2.set(1);
